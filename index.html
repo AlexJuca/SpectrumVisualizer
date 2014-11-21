@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="description" content="HTML5 Audio Spectrum Visualizer">
+        <title>HTML5 Audio Spectrum Visualizer - Alexandre Juca</title>
+        <link href='http://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="style/style.css">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="fileWrapper" class="file_wrapper">
+                <div id="info">
+                    HTML5 Audio Spectrum Visualizer
+                   Inpsired by WINAMP
+                </div>
+
+                <label for="uploadedFile">Drag & drop or select a file to play:</label>
+                <input type="file" id="uploadedFile"></input>
+            </div>
+            <div id="visualizer_wrapper">
+
+                 <canvas id='mono-L' width="1200" height="350"></canvas>
+                <canvas id='mono-R' width="1200" height="350"></canvas>
+            </div>
+
+        </div>
+        <footer>
+            <small>Star me on <a href="https://github.com/AlexJuca"  target="_blank">GitHub</a></small>
+        </footer>
+        <script type="text/javascript" src="js/visualizer.js"></script>
+    </body>
+</html>
