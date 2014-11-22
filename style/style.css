@@ -22,9 +22,10 @@ footer{
 #mono-R
 {
 	transform: rotateX(230deg);
-	-webkit-transform:(230deg)
-	position: relative;
+	-webkit-transform:(230deg);
+	transform: rotateX(230deg);
 	top: -66px;
+	position: relative;
 }
 
 input[type="file"]
