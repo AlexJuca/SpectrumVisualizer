@@ -9,7 +9,7 @@ var Visualizer = function() {
     this.animationId = null,
     this.status = 0, //flag for sound is playing 1 or stopped 0
     this.forceStop = false,
-    this.allCapsReachBottom = false
+    this.allCapsReachBottom = false;
 };
 
 
@@ -122,8 +122,8 @@ Visualizer.prototype = {
         audioBufferSouceNode.buffer = buffer;
         //play the source
         if (!audioBufferSouceNode.start) {
-            audioBufferSouceNode.start = audioBufferSouceNode.noteOn //in old browsers use noteOn method
-            audioBufferSouceNode.stop = audioBufferSouceNode.noteOff //in old browsers use noteOn method
+            audioBufferSouceNode.start = audioBufferSouceNode.noteOn; //in old browsers use noteOn method
+            audioBufferSouceNode.stop = audioBufferSouceNode.noteOff; //in old browsers use noteOn method
         };
         //stop the previous sound if any
         if (this.animationId !== null) {
@@ -208,7 +208,7 @@ Visualizer.prototype = {
                 ctx1.fillRect(i * 12 /*meterWidth+gap*/ , cheight - value + capHeight, meterWidth, cheight); //the meter
             }
             that.animationId = requestAnimationFrame(drawMeter);
-        }
+        };
         this.animationId = requestAnimationFrame(drawMeter);
     },
     _audioEnd: function(instance) {
@@ -237,15 +237,15 @@ Visualizer.prototype = {
             //animate dots at the end of the info text
             var animateDot = function() {
                 if (i > 3) {
-                    i = 0
+                    i = 0;
                 };
                 infoBar.innerHTML = text + dots.substring(0, i++);
                 that.infoUpdateId = setTimeout(animateDot, 250);
-            }
+            };
             this.infoUpdateId = setTimeout(animateDot, 250);
         };
     }
-}
+};
 
 window.onload = function() {
     new Visualizer().ini();
