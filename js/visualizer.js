@@ -9,14 +9,17 @@ var Visualizer = function() {
     this.animationId = null,
     this.status = 0, //flag for sound is playing 1 or stopped 0
     this.forceStop = false,
-    this.allCapsReachBottom = false
+    this.allCapsReachBottom = false,
+    this.url = "http://127.0.0.1/SpectrumVisualizer/09 O.mp3", // the url pointing to the audio file.
+    this.buffererdLoader = null;
 };
 
 
 Visualizer.prototype = {
     ini: function() {
         this._prepareAPI();
-        this._addEventListner();
+        //this._addEventListner();
+        this._loadUrl();
     },
     _prepareAPI: function() {
         //fix browser vender for AudioContext and requestAnimationFrame
@@ -82,8 +85,34 @@ Visualizer.prototype = {
             that._start();
         }, false);
     },
+    _loadUrl: function() {
+          var mp3Url = this.url;
+          var that = this;
+          var audioContext = that.audioContext;
+          var request = new XMLHttpRequest();
+          if ("withCredentials" in request) {
+            // XHR for Chrome/Firefox/Opera/Safari.
+            request.open('GET', mp3Url, true);
+            request.setRequestHeader('Access-Control-Allow-Origin', '*');
+            request.setRequestHeader('Access-Control-Allow-Method', 'GET');
+            request.withCredentials = true;
+            console.log("Created request...")
+            request.responseType = "arraybuffer";
+            // Decode asynchronously
+            request.onload = function(e) {
+              audioContext.decodeAudioData(request.response, function(buffer) {
+                this.buffererdLoader = buffer;
+                that._updateInfo('Decode succussfully,start the visualizer', true);
+                that._visualize(audioContext, buffer);
+                console.log("");
+              }, console.log(e));
+            }
+            request.send();
+          }
+
+    },
     _start: function() {
-        //read and decode the file into audio array buffer 
+        //read and decode the file into audio array buffer
         var that = this,
             file = this.file,
             fr = new FileReader();
@@ -138,8 +167,8 @@ Visualizer.prototype = {
         audioBufferSouceNode.onended = function() {
             that._audioEnd(that);
         };
-        this._updateInfo('Playing ' + this.fileName, false);
-        this.info = 'Playing ' + this.fileName;
+        this._updateInfo('Playing ' + this.url, false);
+        this.info = 'Playing ' + this.url;
         document.getElementById('fileWrapper').style.opacity = 0.2;
         this._drawSpectrum(analyser);
     },
@@ -149,24 +178,24 @@ Visualizer.prototype = {
             monoR = document.getElementById('mono-R'),
             cwidth = monoL.width,
             cheight = monoL.height - 2,
-            meterWidth = 2, //width of the meters in the spectrum
-            gap = 0.1, //gap between meters
-            capHeight = 2,
+            meterWidth = 1.6, //width of the meters in the spectrum
+            gap = 1, //gap between meters
+            capHeight = 1,
             capStyle = '#fff',
-            meterNum = 40 * (2 + 2), //count of the meters
+            meterNum = 60 * (2 + 2), //count of the meters
             capYPositionArray = []; ////store the vertical position of hte caps for the preivous frame
-        ctx = monoL.getContext('2d'),
-        ctx1 = monoR.getContext('2d'),
-        gradient = ctx.createLinearGradient(0, 0, 0, 300);
-        gradient2 = ctx1.createLinearGradient(0, 0, 0, 300);
-        gradient.addColorStop(1, '#9331CB');
-        gradient.addColorStop(0.5, '#0CD7FD');
-        gradient.addColorStop(0, '#f00');
+            ctx = monoL.getContext('2d'),
+            ctx1 = monoR.getContext('2d'),
+            gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient2 = ctx1.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(1, '#9331CB');
+            gradient.addColorStop(0.5, '#0CD7FD');
+            gradient.addColorStop(0, '#fff');
 
-        
-        gradient2.addColorStop(1, '#9331CB');
-        gradient2.addColorStop(0.5, '#0CD7FD');
-        gradient2.addColorStop(0, '#f00');
+
+            gradient2.addColorStop(1, '#9331CB');
+            gradient2.addColorStop(0.5, '#0CD7FD');
+            gradient2.addColorStop(0, '#fff');
         var drawMeter = function() {
             var array = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(array);
@@ -246,6 +275,7 @@ Visualizer.prototype = {
         };
     }
 }
+
 
 window.onload = function() {
     new Visualizer().ini();
