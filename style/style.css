@@ -2,48 +2,35 @@ html, body {
     margin: 0;
     font-family: 'Oswald', sans-serif;
     background-color: #272822;
-    color: #FEFEFE;
+    color: #FEFEFE
 }
-#fileWrapper{
-	transition:all 0.5s ease;
+#fileWrapper {
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease
 }
-#fileWrapper:hover{
-	opacity: 1!important;
+#fileWrapper:hover { opacity: 1 !important }
+#visualizer_wrapper { text-align: center }
+footer { position: fixed; bottom: 2px; color:#aaa }
+
+#mono-R {
+    position: relative;
+    top: -66px;
+	transform: rotateX(230deg);
+	-ms-transform:(230deg);
+	-webkit-transform:(230deg)
 }
 
-#visualizer_wrapper{
-	text-align: center;
-}
-footer{
-	position: fixed;
-	bottom: 2px;
-	color:#aaa;
-}
-#mono-R
-{
-	transform: rotateX(230deg);
-	-webkit-transform:(230deg);
-	transform: rotateX(230deg);
-	top: -66px;
-	position: relative;
-}
-
-input[type="file"]
-{
-	background: #0CD7FD;
-}
+.input { background: #0CD7FD }
 
 #info
 {
 	position: relative;
+	top: 120px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 750px;
-	top: 120px;
-	font-size: 22px;
+	font-size: 22px
 }
 
-.text{
-	color: #FEFEFE;
-	font-size: 30px; 
-}
+.text { color: #FEFEFE; font-size: 30px }
